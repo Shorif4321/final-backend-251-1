@@ -11,6 +11,10 @@ An online booking system is software that lets you receive and manage reservatio
     /admin
     /admin:email
     /admin:email
+    /admin:isAdmin
     /services
     /specialist
     /booking
+
+## file upload
+## cors middlewares
