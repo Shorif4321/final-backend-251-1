@@ -1,5 +1,5 @@
 const express = require("express");
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
 const app = express();
 const cors = require('cors')
@@ -41,6 +41,26 @@ async function run() {
             const result = await usersCollection.insertOne(user);
             res.send(result)
         })
+        // make admin / update 
+        app.patch("/users/admin/:id",async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+            const option = {upsert:true};
+            const updatedDoc = {
+                $set:{
+                    role:'admin'
+                }
+            }
+           const result = await usersCollection.updateOne(query,updatedDoc,option)
+            res.send(result)
+        })
+        app.delete("/users/:id",async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+            const result = await usersCollection.deleteOne(query);
+            res.send(result)
+        })
+
 
     } finally {
         // await client.close();
